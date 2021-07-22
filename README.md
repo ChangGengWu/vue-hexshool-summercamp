@@ -1,5 +1,3 @@
-# vue-hexshool-summercamp
-
 # Week 1 homework  
  [Link to Github Page](https://changgengwu.github.io/vue-hexshool-summercamp/homework/week1/)  
  功能

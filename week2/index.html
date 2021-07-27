@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      input,
+      img,
+      a {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- #1 呈現 text 在畫面上 -->
+      {{ text }}
+      <!-- #2 使用 v-model 綁定 num 資料 -->
+      <input type="text" v-model="num" />
+      <!-- #3 綁定 num 同時使用修飾符確保型別為 number -->
+      <input type="number" v-model.number="num" />
+      {{num}}
+      <!-- #4 呈現 person.name 在畫面上 -->
+      {{person.name}}
+      <!-- #5 取出 person . image 並以圖片形式呈現在畫面上（使用 v-bind） -->
+      <!-- <img v-bind:src="person.image" alt="" /> -->
+      <!-- #6 將上述的 v-bind 改為縮寫形式 -->
+      <!-- <img :src="person.image" alt="" /> -->
+      <!-- #7 使用 a 標籤搭配 method 將 person 參數傳入，用以修改 cash 金額 -->
+      <a href="" v-on:click="updateCash(person)">點我</a>
+      <!-- #8 為 v-on 加入修飾符 -->
+      <a href="" @click.prevent="updateCash(person)">點我(.prevent)</a>
+      <!-- #9 使用 v-if 判斷 gender 的 icon 切換 -->
+      <span v-if="person.gender === 'male'">👨</span>
+      <span v-else>👩</span>
+      <!-- #10 使用 v-else 判斷另一個 -->
+
+      <!-- #11 使用 v-for 迴圈呈現 people 資料 -->
+      <!-- <ul v-for="item in people">
+        <li>
+          {{item.name}} {{item.cash}} {{item.gender}}
+          <span v-if="item.gender === 'male'">👨</span>
+          <span v-else>👩</span>
+        </li>
+      </ul> -->
+      <!-- #12 將 people 改為物件展示 -->
+      <!-- <ul>
+        <li v-for="(item,key) in peopleObj">
+          {{item.name}}
+          <span v-if="item.gender === 'male'">👨</span>
+          <span v-else>👩</span>
+          {{key}}
+        </li>
+      </ul> -->
+      <!-- #13 v-for 搭配 :key -->
+      <ul>
+        <li v-for="(item,key) in peopleObj" :key="key">
+          {{item.name}}
+          <span v-if="item.gender === 'male'">👨</span>
+          <span v-else>👩</span>
+          {{key}}
+        </li>
+      </ul>
+      <!-- #14 v-for key 之問題（須將 people 改為陣列形式） -->
+
+      <!-- #15 呈現 people 中的資料 -->
+
+      <!-- #16 將 people 中的 name 綁定 v-model -->
+      <ul>
+        <li v-for="(item,key) in peopleObj" :key="key">
+          {{item.name}}
+          <span v-if="item.gender === 'male'">👨</span>
+          <span v-else>👩</span>
+          {{key}}
+          <input type="text" v-model="item.name" />
+        </li>
+      </ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.1.4/vue.global.min.js"></script>
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            text: "我是卡斯伯",
+            num: 1,
+            person: {
+              name: "小明",
+              image:
+                "https://images.unsplash.com/photo-1593052393678-d1c690c76071?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+              cash: 1000,
+              gender: "male"
+            },
+            people: [
+              {
+                name: "小明",
+                image:
+                  "https://images.unsplash.com/photo-1593052393678-d1c690c76071?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                cash: 1000,
+                gender: "male"
+              },
+              {
+                name: "漂亮阿姨",
+                image:
+                  "https://images.unsplash.com/photo-1526107557768-2073f33a8596?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                cash: 50000,
+                gender: "female"
+              },
+              {
+                name: "杰倫",
+                image:
+                  "https://images.unsplash.com/photo-1504593811423-6dd665756598?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                cash: 1000000,
+                gender: "male"
+              }
+            ],
+            peopleObj: {
+              ming: {
+                name: "小明",
+                image:
+                  "https://images.unsplash.com/photo-1593052393678-d1c690c76071?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                cash: 1000,
+                gender: "male"
+              },
+              auntie: {
+                name: "漂亮阿姨",
+                image:
+                  "https://images.unsplash.com/photo-1526107557768-2073f33a8596?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
+                cash: 50000,
+                gender: "female"
+              },
+              jay: {
+                name: "杰倫",
+                image:
+                  "https://images.unsplash.com/photo-1504593811423-6dd665756598?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                cash: 1000000,
+                gender: "male"
+              }
+            }
+          };
+        },
+        methods: {
+          updateCash(item) {
+            console.log(item);
+          }
+        },
+        mounted() {}
+      }).mount("#app");
+    </script>
+  </body>
+</html>

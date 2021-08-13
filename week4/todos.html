@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="app" class="container">
+      <input type="text" v-model="text" />
+      <button type="button" @click="addItem">增加文字</button>
+
+      <ul>
+        <li v-for="item in data" :key="item.id">
+          {{ item.text }}
+          <button type="button" @click="editItem(item)">編輯品項</button>
+          <button type="button" @click="removeItem(item)">移除品項</button>
+        </li>
+      </ul>
+
+      <hr />
+      <input type="text" v-model="temp.text" />
+      <button type="button" @click="doneEdit">編輯完成</button>
+    </div>
+    <script type="module">
+      // 引入 ESM，script 的 type 記得改成 module
+      import {
+        createApp,
+        ref,
+        reactive,
+        onMounted,
+        computed,
+      } from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.0-beta.7/vue.esm-browser.min.js";
+      const app = createApp({
+        setup() {
+          const text = ref("我是卡斯伯");
+          const data = ref([]);
+          const temp = ref({});
+
+          function addItem() {
+            data.value.push({
+              id: data.value.length + 1,
+              text: text.value,
+            });
+          }
+
+          function removeItem(item) {
+            const index = data.value.findIndex((obj) => obj.id === item.id);
+            data.value.splice(index, 1);
+          }
+
+          function editItem(item) {
+            temp.value = { ...item };
+          }
+
+          function doneEdit() {
+            const index = data.value.findIndex(
+              (obj) => obj.id === temp.value.id
+            );
+            data.value[index] = temp.value;
+          }
+          return {
+            text,
+            data,
+            temp,
+            addItem,
+            removeItem,
+            editItem,
+            doneEdit,
+          };
+        },
+      });
+      app.mount("#app");
+    </script>
+    <!-- <script>
+      // 當我們在 Vue 的
+      const app = Vue.createApp({
+        data() {
+          // 資料集
+          return {
+            text: "我是卡斯伯",
+            data: [],
+            temp: {}
+          };
+        },
+        methods: {
+          // #1 如何新增資料
+          addItem() {
+            this.data.push({
+              id: this.data.length + 1,
+              text: this.text
+            });
+            this.text = "";
+          },
+          // #2 如何移除資料
+          removeItem(item) {
+            // 1 陣列索引
+            const index = this.data.findIndex(obj => obj.id === item.id);
+            console.log(index);
+            // 2 id
+            this.data.splice(index, 1);
+          },
+          // #3 如何編輯資料
+          editItem(item) {
+            // this.temp = item;
+            this.temp = { ...item };
+          },
+          // #4 把資料寫回
+          doneEdit() {
+            const index = this.data.findIndex(obj => obj.id === this.temp.id);
+            this.data[index] = this.temp;
+            this.temp = {};
+          }
+        }
+      });
+      app.mount("#app");
+
+      // Vue 2
+    </script> -->
+  </body>
+</html>

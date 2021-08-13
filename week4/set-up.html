@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!-- HTML -->
+    <div id="app">
+      reactive: {{ person }}
+      <br />
+      ref: {{person2}}
+      <br />
+      <input type="text" v-model="text" />
+      <button type="button" @click="getText">click</button>
+      <br />
+      {{num}} <input type="number" v-model.number="num" />
+      {{doubleNum}}
+    </div>
+    <!-- JS -->
+    <script type="module">
+      // 引入 ESM，script 的 type 記得改成 module
+      import {
+        createApp,
+        ref,
+        reactive,
+        onMounted,
+        computed,
+      } from "https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.0-beta.7/vue.esm-browser.min.js";
+      const app = createApp({
+        setup() {
+          //定義資料 ref,reactive
+
+          //ref
+          // #1 不限制任何型別
+          // #2 一定要使用.value取值
+          const text = ref("");
+          const person2 = ref({
+            name: "Bllen",
+          });
+          console.log(person2.value.name);
+
+          onMounted(() => {
+            person2.value = {
+              name: "小名",
+            };
+          });
+
+          //Reactive
+          // #1 限制只能使用物件(object, function, array)
+          // #2 覆蓋後會出現不可預期得錯誤
+          const person = reactive({
+            name: "Allen",
+          });
+          console.log(person);
+
+          //methods
+          function getText() {
+            console.log(text);
+          }
+
+          //生命週期
+          onMounted(() => {
+            getText();
+          });
+
+          //computed
+          const num = ref(1);
+          const doubleNum = computed(() => {
+            return num.value * 2;
+          });
+
+          return {
+            person2,
+            person,
+            getText,
+            text,
+            num,
+            doubleNum,
+          };
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>
